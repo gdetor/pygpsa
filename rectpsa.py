@@ -74,13 +74,16 @@ def psa(A, X, Y, num_eigs=2, method='lanczos'):
         I1, I2 = I_[:m-n, :], I_[m-n:, :]
         S2, T2, _, _, Q, Z = sc.linalg.ordqz(A2, I2, sort='iuc')
         S[:m-n, :] = np.dot(A1, Z)
-        S[m-n:, :] = S2         # S2 = dot(dot(Q, A2), Z)
+        S[m-n:, :] = S2
+        # S[m-n:, :] = np.dot(np.dot(Q, A2), Z)
         T[:m-n, :] = np.dot(I1, Z)
-        T[m-n:, :] = T2         # T2 = dot(dot(Q, I2), Z)
+        T[m-n:, :] = T2
+        # T[m-n:, :] = np.dot(np.dot(Q, I2), Z)
 
     # eps = 10e-1
     zz = X + 1j * Y
     sigma = np.zeros((zz.shape[0], zz.shape[1]))
+    sigma_m = np.zeros((zz.shape[0], zz.shape[1]))
     if method == "lanczos":
         for i in range(zz.shape[0]):
             for j in range(zz.shape[1]):
@@ -88,8 +91,9 @@ def psa(A, X, Y, num_eigs=2, method='lanczos'):
                 Q, R = np.linalg.qr(tmp, mode='complete')
                 R = np.asmatrix(R[:n, :])
                 tmp = np.dot(R.H, R)
-                s, v = eigsh(tmp, k=num_eigs, ncv=4, which='SA')
+                s, v = eigsh(tmp, k=num_eigs, which='SA')
                 sigma[i, j] = np.sqrt(s.real)
+                # sigma[i, j] = 1.0 / np.sqrt(s.min().real+1e-10)
     elif method == 'svd':
         for i in range(zz.shape[0]):
             for j in range(zz.shape[1]):
@@ -99,11 +103,12 @@ def psa(A, X, Y, num_eigs=2, method='lanczos'):
                 tmp = np.dot(R.H, R)
                 u, s, v = np.linalg.svd(tmp)
                 sigma[i, j] = np.sqrt(s.min().real)
+                sigma_m[i, j] = np.sqrt(s.max().real)
                 # sigma[i, j] = 1.0 / np.sqrt(s.min()+1e-10)
     else:
         raise "No method found!"
 
-    return sigma
+    return sigma, sigma_m
 
 
 def cond(A):

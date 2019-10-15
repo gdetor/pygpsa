@@ -135,7 +135,10 @@ Short tutorials and examples showing how to make use of `GAIM` either as a
 standalone executable or as a shared library are available.
 
 
-![Performance](performance.png)
+![Time for the optimizer to reach the global minimum of the Schwefel function
+is plotted against the dimensionality of the function (size of genome). Separate
+series show that convergence is faster in terms of real-time for GAIM versus 
+a Python implementation and ECJ.](performance.png)
 
 <sup>*</sup> All authors contributed equally to this work.
 

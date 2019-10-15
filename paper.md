@@ -28,7 +28,7 @@ objective function (in most practical cases, subject to a set of constraints).
 Depending on the inherent complexity and characteristics of the function to be
 optimized, there is a diverse armamentarium of ways to attack optimization
 problems. Methods including Linear and Nonlinear programming, Dynamic
-programming, Calculus of Variations, Optimal Control, etc. have long been
+programming, Calculus of Variations, and Optimal Control have long been
 successfully used on smaller, traditional problems and can in some cases be
 completely dominant. However, to realize most successful industrial-scale
 neural networks, various flavors of gradient descent, in conjunction with the
@@ -47,11 +47,11 @@ and neural controllers for playing video games. However, the proper role of EC
 in deep learning (i.e. deep neuroevolution, [@stanley:2019]) remains a hotly
 contested issue:
 for what kinds of problems can evolutionary processes be fast enough in
-comparison to gradient methods for training model weights directly, or is
-EC only suitable for automatic tuning of high-level hyperparameters, or,
+comparison to gradient methods for training model weights directly? Is
+EC only practically suitable for automatic tuning of high-level hyperparameters, or,
 failing even that, exploring subjectively-defined trajectories in
-high-dimensional latent spaces after the embeddings have already been
-learned by gradient methods?
+high-dimensional latent spaces after useful representations (*e.g.*, word embeddings)
+have already been learned by gradient methods?
 
 Genetic Algorithms (GAs) embody a specific instantiation of EC that tends to be
 characterized by discrete generations with nearly-complete selection and
@@ -109,17 +109,17 @@ very fast and very numerous. With `GAIM`, the user has the ability to execute
 independent GA runs on different threads, which is very useful for deriving
 good Monte Carlo estimates of average fitness across independent evolutionary
 trajectories. Because parallelization of island models is even more
-inconvenient for an nonspecialist application writer or researcher to add
-directly to their program, a basic IM implementation is provided. Islands are
-implemented as threads and concurrency mechanisms are used to synchronize the
-communication of individual genomes between them only when it is necessary
-(based on the migration interval). Furthermore, we provide MPI implementations
+inconvenient than a simple GA for an nonspecialist application writer or 
+researcher to add directly to their program, a basic IM implementation is provided.
+Islands are implemented as threads and concurrency mechanisms are used to 
+synchronize the communication of individual genomes between them only when it is
+necessary (based on the migration interval). Furthermore, we provide MPI implementations
 for independent GA runs and for Island Models. Both can be used in case of 
 large-scale optimization problems running on computer clusters or grids. 
 
 Finally, because experimentation overwhelmingly revolves around tuning
 evolution for a fitness function of interest, evolutionary parameters are
-specified separately (in a file) from the function to be optimized (in users
+specified separately (in a file) from the function to be optimized (in users'
 source code), helping the research-oriented user to keep track of numerous experiments
 and their results. `GAIM` provides tools for logging and storing information
 regarding an experiment such as fitness of individuals, the best genome within
@@ -130,14 +130,14 @@ A small test suite accompanies the project such that `GAIM`'s smooth and robust
 operation can be easily verified; furthermore, the project benefits from taking
 advantage of the CI infrastucture provided by GitLab. More details about the
 implementation and the API available to the user who wishes to integrate `GAIM`
-into their program in documentation in the GitLab repository.
+into their program are available in documentation.
 Short tutorials and examples showing how to make use of `GAIM` either as a
-standalone executable or as a shared library are available.
+standalone executable or as a shared library are also furnished.
 
 
 ![Time for the optimizer to reach the global minimum of the Schwefel function
 is plotted against the dimensionality of the function (size of genome). Separate
-series show that convergence is faster in terms of real-time for GAIM versus 
+series show that convergence is faster in terms of real time for GAIM versus 
 a Python implementation and ECJ.](performance.png)
 
 <sup>*</sup> All authors contributed equally to this work.
